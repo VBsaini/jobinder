@@ -1,0 +1,91 @@
+<%- include('header.ejs') %> <% if(EditJob != null){%>
+<form
+    action="/jobs/edit/<%- EditJob._id %>"
+    method="post"
+    class="container d-flex flex-column"
+>
+    <label for="title">Title</label>
+    <input
+        type="text"
+        value="<%- EditJob.title %>"
+        placeholder="title"
+        name="title"
+        required
+    />
+    <label for="Pos">designation</label>
+    <input
+        type="text"
+        value="<%- EditJob.designation %>"
+        placeholder="designation"
+        name="pos"
+        required
+    />
+    <label for="smin">salary min</label>
+
+    <input
+        type="number"
+        value="<%- EditJob.salaryMin %>"
+        placeholder="salary min"
+        name="smin"
+        required
+    />
+    <label for="smax">salary max</label>
+
+    <input
+        type="number"
+        value="<%- EditJob.salaryMax %>"
+        placeholder="salary max"
+        name="smax"
+        required
+    />
+    <label for="loc">location</label>
+
+    <input
+        type="text"
+        value="<%- EditJob.location %>"
+        placeholder="location"
+        name="loc"
+        required
+    />
+    <label for="qualification">qualification (seprate by' + ')</label>
+
+    <input type="text" value="<%- EditJob.qualification.join(" + ") %>" required
+    placeholder="qualification (seprate by' + ')" style="min-width: 300px"
+    name="qualification" />
+    <label for="timeS">Time Start(00:00 am/pm)</label>
+    <input
+        type="text"
+        required
+        value="<%- EditJob.timeStart %>"
+        placeholder="time start"
+        name="timeS"
+    />
+    <label for="timeE">Time End(00:00 am/pm)</label>
+    <input
+        type="text"
+        required
+        value="<%- EditJob.timeEnd %>"
+        placeholder="time end"
+        name="timeE"
+    />
+    <button type="submit">submit</button>
+</form>
+<% } else { %>
+<form action="/jobs" method="post" class="container d-flex flex-column">
+    <input type="text" placeholder="title" name="title" required />
+    <input type="text" placeholder="designation" name="pos" required />
+    <input type="number" placeholder="salary min" name="smin" required />
+    <input type="number" placeholder="salary max" name="smax" required />
+    <input type="text" placeholder="location" name="loc" required />
+    <input
+        type="text"
+        required
+        placeholder="qualification (seprate by' + ')"
+        style="min-width: 300px"
+        name="qualification"
+    />
+    <input type="text" required placeholder="time start" name="timeS" />
+    <input type="text" required placeholder="time end" name="timeE" />
+    <button type="submit">submit</button>
+</form>
+<% } %> <%- include('footer.ejs') %>

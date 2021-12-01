@@ -1,0 +1,173 @@
+<%- include('header.ejs', {user: user}) %>
+
+<Section
+    class="container row flex-column flex-lg-row ms-auto me-auto"
+    style="min-height: 100%"
+    ><script type="text/javascript">
+        document.addEventListener("scroll", (e) => {
+            if (
+                scrollY > 10 &&
+                !document.querySelector("#filter").classList.contains("mid")
+            ) {
+                document.querySelector("#filter").classList.add("mid");
+            } else if (
+                scrollY <= 10 &&
+                document.querySelector("#filter").classList.contains("mid")
+            ) {
+                document.querySelector("#filter").classList.remove("mid");
+            }
+        });
+        document.querySelector("#form").onsubmit = function () {
+            Smin = document.querySelector("#Smin");
+            Smax = document.querySelector("#Smax");
+            if (Smin) {
+                Smin.value = 1;
+            }
+            if (Smax) {
+                Smax.value = 1000000;
+            }
+        };
+    </script>
+    <div class="col-12 col-xl-4">
+        <div class="filter" id="filter">
+            <h2>Filter the jobs</h2>
+            <form
+                id="form"
+                action="/specificJobs"
+                method="get"
+                class="d-flex flex-column"
+            >
+                <label for="Name">Name</label>
+                <input type="text" placeholder="Company name" name="company" />
+                <label for="Name">Position</label>
+                <input
+                    type="text"
+                    placeholder="Position name"
+                    name="position"
+                />
+                <label for="Salary">Salary</label>
+                <div class="d-flex">
+                    <input
+                        type="number"
+                        class="w-50"
+                        placeholder="Min"
+                        name="salaryMin"
+                        id="Smin"
+                    />
+                    <input
+                        type="number"
+                        class="w-50"
+                        name="salaryMax"
+                        placeholder="Max"
+                        id="Smax"
+                    />
+                </div>
+                <button type="submit" class="search">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-1"></div>
+    <div class="jobs col-12 col-xl-7">
+        <% data.splice(start, end ).forEach(element => { %>
+        <div class="job">
+            <a href="/job/<%- element._id %> " class="jobLink">
+                <div class="d-flex justify-content-between">
+                    <div class="data">
+                        <h3 class="Jtitle">
+                            <%- element.title %> - <%- element.designation %>
+                        </h3>
+                        <div class="d-flex mt-5 justify-content-between w-100">
+                            <p class="Jsalary">
+                                <%- element.salaryMin %>rs to
+                                <%-element.salaryMax %>rs
+                            </p>
+                            <p class="Jlocation"><%- element.location %></p>
+                        </div>
+                    </div>
+                    <div class="arrow d-flex align-items-center">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <% }); %>
+        <div class="d-flex w-100">
+            <% if(previous){ %>
+            <button class="w-50 btn p-0">
+                <% } else { %>
+                <button class="w-50 btn p-0" disabled="disabled">
+                    <% } %>
+                    <section class="centered-container w-100">
+                        <a class="link link--arrowed w-100" href="/previous">
+                            <svg
+                                class="arrow-icon prev"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="32"
+                                height="32"
+                                viewBox="0 0 32 32"
+                            >
+                                <g
+                                    fill="none"
+                                    stroke="#2175FF"
+                                    stroke-width="1.5"
+                                    stroke-linejoin="round"
+                                    stroke-miterlimit="10"
+                                >
+                                    <circle
+                                        class="arrow-icon--circle"
+                                        cx="16"
+                                        cy="16"
+                                        r="15.12"
+                                    ></circle>
+                                    <path
+                                        class="arrow-icon--arrow"
+                                        d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"
+                                    ></path>
+                                </g></svg
+                            >Previous</a
+                        >
+                    </section>
+                </button>
+                <% if(next){ %>
+                <button class="w-50 btn ms-2 p-0">
+                    <% } else { %>
+                    <button class="w-50 btn ms-2 p-0" disabled="disabled">
+                        <% } %>
+                        <section class="centered-container w-100">
+                            <a class="link link--arrowed w-100" href="/next">
+                                Next
+                                <svg
+                                    class="arrow-icon"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="32"
+                                    height="32"
+                                    viewBox="0 0 32 32"
+                                >
+                                    <g
+                                        fill="none"
+                                        stroke="#2175FF"
+                                        stroke-width="1.5"
+                                        stroke-linejoin="round"
+                                        stroke-miterlimit="10"
+                                    >
+                                        <circle
+                                            class="arrow-icon--circle"
+                                            cx="16"
+                                            cy="16"
+                                            r="15.12"
+                                        ></circle>
+                                        <path
+                                            class="arrow-icon--arrow"
+                                            d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"
+                                        ></path>
+                                    </g></svg
+                            ></a>
+                        </section>
+                    </button>
+                </button>
+            </button>
+        </div>
+    </div>
+</Section>
+
+<%- include('footer.ejs') %>.
