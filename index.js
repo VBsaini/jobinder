@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 app.use(passport.initialize());
 app.use(passport.session());
 mongoose
-    .connect("mongodb+srv://joninderKRG:" + process.env.MONGOPASSWORD + "@jobinder.zfdyg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+    .connect("mongodb+srv://admin:root@cluster0.3mvnoad.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
     .catch((error) => console.log(error));
 
 const jobsSchema = new mongoose.Schema({
@@ -62,35 +62,35 @@ app.get("/",  (req, res) => {
     }
 });
 app.post("/email", middlewareObj.isloggedin, (req, res) => {
-    let transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.EMAIL,
-            pass: process.env.PASSWORD,
-        },
-    });
+    // let transporter = nodemailer.createTransport({
+    //     service: "gmail",
+    //     auth: {
+    //         user: process.env.EMAIL,
+    //         pass: process.env.PASSWORD,
+    //     },
+    // });
 
-    User.findOne({ username: req.user.username }, (err, user) => {
-        if (err) {
-            res.redirect("/home");
-        } else {
-            let mailOptions = {
-                from: "helpjobinder@gmail.com",
-                to: "helpjobinder@gmail.com",
-                subject: `message from ${req.user.username}`,
-                text: `${req.body.message} - ${user.email}`,
-            };
-            transporter.sendMail(mailOptions, (err, data) => {
-                if (err) {
+    // User.findOne({ username: req.user.username }, (err, user) => {
+    //     if (err) {
+    //         res.redirect("/home");
+    //     } else {
+    //         let mailOptions = {
+    //             from: "helpjobinder@gmail.com",
+    //             to: "helpjobinder@gmail.com",
+    //             subject: `message from ${req.user.username}`,
+    //             text: `${req.body.message} - ${user.email}`,
+    //         };
+    //         transporter.sendMail(mailOptions, (err, data) => {
+    //             if (err) {
                     req.flash("error", "error please try again later");
                     res.redirect("/");
-                } else {
-                    req.flash("success", "Email sent");
-                    res.redirect("/");
-                }
-            });
-        }
-    });
+    //             } else {
+    //                 req.flash("success", "Email sent");
+    //                 res.redirect("/");
+    //             }
+    //         });
+    //     }
+    // });
 });
 app.get("/specificJobs", middlewareObj.isloggedin, (req, res) => {
     jobs.find(
@@ -222,42 +222,42 @@ app.get("/alljobs", middlewareObj.isloggedin, (req, res) => {
     });
 });
 app.post("/email/apply/:id", middlewareObj.isloggedin, (req, res) => {
-    let transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.EMAIL,
-            pass: process.env.PASSWORD,
-        },
-    });
-    jobs.findById(req.params.id, (err, data) => {
-        if (err) {
+    // let transporter = nodemailer.createTransport({
+    //     service: "gmail",
+    //     auth: {
+    //         user: process.env.EMAIL,
+    //         pass: process.env.PASSWORD,
+    //     },
+    // });
+    // jobs.findById(req.params.id, (err, data) => {
+    //     if (err) {
             req.flash("error", "error please try again later");
             res.redirect("back");
-        } else {
-            let mailOptions = {
-                from: "helpjobinder@gmail.com",
-                to: "helpjobinder@gmail.com",
-                subject: `message from ${req.body.fName}`,
-                text: `address - ${req.body.address}
-                        email - ${req.body.email}
-                        number - ${req.body.number}
-                        job - ${data.title}, ${data.designation}
-                        job_id - ${data._id}`,
-            };
-            transporter.sendMail(mailOptions, (err, data) => {
-                if (err) {
-                    req.flash("error", "error please try again later");
-                    res.redirect("/");
-                } else {
-                    req.flash(
-                        "success",
-                        "Applied. our Team will contact you soon"
-                    );
-                    res.redirect("/");
-                }
-            });
-        }
-    });
+    //     } else {
+    //         let mailOptions = {
+    //             from: "helpjobinder@gmail.com",
+    //             to: "helpjobinder@gmail.com",
+    //             subject: `message from ${req.body.fName}`,
+    //             text: `address - ${req.body.address}
+    //                     email - ${req.body.email}
+    //                     number - ${req.body.number}
+    //                     job - ${data.title}, ${data.designation}
+    //                     job_id - ${data._id}`,
+    //         };
+    //         transporter.sendMail(mailOptions, (err, data) => {
+    //             if (err) {
+    //                 req.flash("error", "error please try again later");
+    //                 res.redirect("/");
+    //             } else {
+    //                 req.flash(
+    //                     "success",
+    //                     "Applied. our Team will contact you soon"
+    //                 );
+    //                 res.redirect("/");
+    //             }
+    //         });
+    //     }
+    // });
 });
 app.get("/next", middlewareObj.isloggedin, (req, res) => {
     if (!(req.app.locals.numOfIndex >= req.app.locals.totalNum)) {
